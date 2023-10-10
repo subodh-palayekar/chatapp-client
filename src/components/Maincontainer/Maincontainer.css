@@ -1,0 +1,15 @@
+.main-container{
+    background-color:#f1f1f1;
+    height: 95vh;
+    width: 98vw;
+    display: flex;
+    border-radius: 30px;
+}
+
+@media (max-width:615px){
+    .main-container{
+        height: 99vh;
+        border-radius: 0;
+    }
+    
+}

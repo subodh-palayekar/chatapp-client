@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+
+import { Route, Routes } from 'react-router-dom';
 import './App.css';
+import Maincontainer from './components/Maincontainer/Maincontainer';
+import Login from './components/LoginComp/Login';
+import Register from './components/Register/Register';
+import Creategroup from './components/CreateGroup/Creategroup.js';
+import Adduser from './components/AddUser/Adduser';
+import Welcome from './components/Welcome/Welcome';
+import Chatarea from './components/ChatArea/Chatarea';
+import Allgroups from './components/CreateGroup/Allgroups';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Routes>
+        <Route path='/' element={<Login/>}></Route>
+        <Route path='/register' element={<Register/>}></Route>
+        <Route path='app' element={<Maincontainer/>}>
+          <Route path='welcome' element={<Welcome/>}></Route>
+          <Route path='chat/:id' element={<Chatarea/>}></Route>
+          <Route path='register' element={<Register/>}></Route>
+          <Route path='creategroup' element={<Creategroup/>}></Route>
+          <Route path='Allgroups' element={<Allgroups/>}></Route>
+          <Route path='adduser' element={<Adduser/>}></Route>
+        </Route>
+      </Routes>
+      
     </div>
   );
 }

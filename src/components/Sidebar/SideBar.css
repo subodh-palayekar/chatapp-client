@@ -1,0 +1,142 @@
+.sidebar-container{
+    flex: 0.3;
+    display: flex;
+    flex-direction: column;
+    background-color:#f1f1f1;
+    border-radius: 30px;
+}
+.sidebar-top{
+    min-height: 59px;
+    background-color: #e8dcff;
+    border-radius: 25px;
+    margin: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px 10px;
+   
+}
+.sidebar-top-left{
+    background-color: transparent;
+    
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.sidebar-icon-holder{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+}
+
+.sidebar-icon{
+   color: #6c28f4;
+   background-color: white;
+   font-size: 48px;
+   
+}
+
+.sidebar-profile-name{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color:transparent;
+    font-size: 20px;
+    font-weight: 600;
+    max-width: 230px;
+    overflow: hidden;
+    
+}
+
+.sidebar-top-right{
+    display: flex;
+    background-color: transparent;
+    justify-content:center;
+    align-items: center;
+}
+.sidebar-top-right div{
+    margin-left: 10px;
+}
+.sidebar-bottom{
+    flex:1;
+    background-color: #e8dcff;
+    border-radius: 25px;
+    margin: 7px;
+    margin-top: 0px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+ 
+    
+}
+.prev-message-container{
+    overflow: scroll;
+    border-radius: 10px;
+}
+.prev-message-container::-webkit-scrollbar{
+    display: none;
+}
+
+
+
+.search-container{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    /* margin-bottom: 0px; */
+    min-height: 50px;
+    border-radius: 20px;
+    /* box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; */
+
+}
+
+.search{
+    background-color: transparent;
+    width: inherit;
+    flex: 1;
+    padding-left: 45px;
+}
+
+.search-container{
+    position: relative;
+}
+.search-icon{
+    position: absolute;
+    top: 50%;
+    left: 10px; 
+    transform: translateY(-50%);
+    z-index: 1;
+    color: #6c28f4;
+    background-color: transparent;
+    
+}
+
+.prev-message-container{
+    background-color:transparent;
+    /* overflow: scroll; */
+
+}
+
+@media (max-width:615px){
+    .mobile-container{
+        display: none;
+    }
+    .sidebar-container{
+        flex: 1;
+    }
+
+    .click{
+        display: none;
+    }
+    .profile{
+        cursor: not-allowed;
+    }
+}
+

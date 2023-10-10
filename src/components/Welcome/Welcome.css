@@ -1,0 +1,19 @@
+.welcome-container{
+    flex: 0.7;
+    background-color: #e8dcff;
+    display: flex;
+    flex-direction: column;
+    border-radius: 30px;
+    margin: 6px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    overflow: hidden;
+}
+
+.welcome-image{
+  margin-right: 26px;
+  width: 300px;
+}
