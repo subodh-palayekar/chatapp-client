@@ -15,6 +15,7 @@ import capitalizeFirstLetter from '../../Utils/capitalize';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Back from '../BackButton/Back';
 import SelfMessageSkeleton from '../Skeleton/SelfMessageSkeleton';
+import ChatContainerSkeleton from '../Skeleton/ChatContainerSkeleton';
 
 const ENDPOINT = "http://localhost:5000"
 var socket;
@@ -31,7 +32,7 @@ const Chatarea = () => {
   const container = useRef(null);
 
   const params = useParams();
-  const[chat_id,chat_user,groupAdminId,otherUser] = params.id.split("&");
+  const[chat_id,chat_user,groupAdminId,otherUser,isGroup] = params.id.split("&");
   const userData = JSON.parse(localStorage.getItem('userData'));
   if(!userData || !userData?.token){
     navigate('/')
@@ -47,6 +48,7 @@ const Chatarea = () => {
         setMessageContent("");
         socket.emit("newMessage",resp)
         setRefresh(!refresh);
+        
       }catch(e){
         errorHandling(e,navigate);
       }
@@ -55,14 +57,11 @@ const Chatarea = () => {
   
   const getMessage = async()=>{
     try{
-      // setLoading(true);
+      
       const resp = await axios.get("http://localhost:5000/message/"+chat_id,config);
-      // console.log(resp ,"all message");
       setAllMessage(resp.data);
       socket.emit("join chat",chat_id);
-      setLoading(false);
-      
-      
+        setLoading(false);
     }catch(e){
       errorHandling(e,navigate);
     }
@@ -70,7 +69,7 @@ const Chatarea = () => {
 
   const handleGroupExit=async()=>{
     try{
-      
+      setLoading(true);
       const resp = await axios.post("http://localhost:5000/chat/groupexit",{chatId:chat_id,userId:userData._id,otherUser:otherUser},config)
       console.log("clicked on button");
       if(window.document.defaultView.innerWidth<=615){
@@ -80,6 +79,7 @@ const Chatarea = () => {
         navigate("/app/adduser")
       }
       setRefresh(!refresh);
+      setLoading(false);
       
     }catch(e){
       errorHandling(e,navigate);
@@ -89,7 +89,7 @@ const Chatarea = () => {
 
   const handleGroupDelete=async()=>{
     try{
-      
+      setLoading(true);
       const resp = await axios.post("http://localhost:5000/chat/deleteGroup",{chatId:chat_id,otherUser:otherUser},config)
       console.log("delete");
       if(window.document.defaultView.innerWidth<=615){
@@ -99,6 +99,7 @@ const Chatarea = () => {
         navigate("/app/adduser")
       }
       setRefresh(!refresh);
+      setLoading(false);
       
     }catch(e){
       console.log(e);
@@ -143,7 +144,6 @@ const Chatarea = () => {
         setAllMessage([...allMessage],newMessage)
       }
     })
-    console.log(socketConnectionStatus);
     
   },[])
   
@@ -152,6 +152,7 @@ const Chatarea = () => {
 
 
   useEffect(()=>{
+    
     if(!userData || !userData?.token){
       navigate('/')
       return;
@@ -171,7 +172,7 @@ const Chatarea = () => {
             </div>
             <div className="sidebar-top-right">
                 <div className="sidebar-icon-holder">
-                  {groupAdmin ?  <DeleteForeverOutlinedIcon style={{ fontSize: '25px',color:"red"}} className='sidebar-icon' onClick={handleGroupDelete}/> 
+                  {(groupAdmin && isGroup==='true') ?  <DeleteForeverOutlinedIcon style={{ fontSize: '25px',color:"red"}} className='sidebar-icon' onClick={handleGroupDelete}/> 
                    : <PersonRemoveOutlinedIcon style={{ fontSize: '25px',color:"red"}} className='sidebar-icon' onClick={handleGroupExit}/>}
   
                 </div>
@@ -179,8 +180,10 @@ const Chatarea = () => {
             </div>
       </div>
       <div className="chatarea-bottom">
+      { loading ? (
+        <ChatContainerSkeleton/>
+      ):(
         <div className="chats">
-
           {
             allMessage.slice(0).reverse().map((message,index)=>{
               const senderId = message.sender._id;
@@ -191,12 +194,13 @@ const Chatarea = () => {
                 ) : (
                   <SelfMessage time={message?.createdAt} content={message.content}/>)}</>
               }else{
-                return <OtherMessage time={message?.createdAt} isGroupM={message.chat.isGroupChat} senderName={message.sender.name} content={message.content}/>
+                return <OtherMessage time={message?.createdAt} isGroupM={message?.chat?.isGroupChat} senderName={message.sender.name} content={message.content}/>
               }
 
             })
           }
-        </div> 
+        </div>) 
+        }
         <div className="message-type-container">
           <input type="text" placeholder='Start Typing...' value={messageContent} className="message-input" onChange={(e)=>{setMessageContent(e.target.value)}}/>
           <div className="send-icon-holder" onClick={sendMessage}>

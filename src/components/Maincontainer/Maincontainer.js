@@ -15,13 +15,15 @@ export const myContext = createContext();
 const Maincontainer = () => {
   const [refresh, setRefresh] = useState(true);
   const [sideBarClick , setSideBarClick] = useState(false);
+  const [messageLoading , setMessageLoading] = useState(true);
   return (
     <div className='main-container'>
       <myContext.Provider value={{ 
           refresh: refresh, 
           setRefresh: setRefresh,
           sideBarClick:sideBarClick,
-          setSideBarClick:setSideBarClick
+          setSideBarClick:setSideBarClick,
+          messageLoading,setMessageLoading
         }}>
         <SideBar />
         <Outlet />

@@ -66,8 +66,8 @@ const SideBar = () => {
     useEffect( ()=>{ 
         setTimeout(() => {
             fetchConversation();
-        }, 500);
-    },[refresh,sideBarClick])
+        },);
+    },[refresh])
 
 
 

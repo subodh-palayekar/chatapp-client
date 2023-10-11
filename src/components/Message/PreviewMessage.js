@@ -22,9 +22,9 @@ const otherUser = data?.users[1]?._id
     }
 
     if(isGroupChat){
-      navigate(`chat/${_id}&${chatName}&${data.groupAdmin._id}&${otherUser}`)
+      navigate(`chat/${_id}&${chatName}&${data.groupAdmin._id}&${otherUser}&true`)
     }else{
-      navigate(`chat/${_id}&${chatName}&false&${otherUser}`)
+      navigate(`chat/${_id}&${chatName}&false&${otherUser}&false`)
     }
   }
   return (
