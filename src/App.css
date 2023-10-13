@@ -55,7 +55,7 @@ button:hover{
 .Toastify__toast-body > div:last-child ,
 .Toastify__toast-body,
 .Toastify__toast-body>svg,
-.Toastify__toast-icon {
+.Toastify__toast-icon,svg {
     background-color: transparent !important;
 }
 

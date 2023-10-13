@@ -50,8 +50,9 @@ const Register = () => {
           progress:undefined,
           theme:"colored"
         })
+        setLoading(false);
       }
-      setLoading(false);
+      
   } 
 
 
@@ -59,7 +60,6 @@ const Register = () => {
   return (
     <div className='register-container'>
       <div className="register-left">
-      <img className='logo' src={Logo}></img>
         <span className="register-heading">Create Account</span>
         <form onSubmit={handleRegister} className="register-form">
           <div className="input-container">
@@ -79,8 +79,8 @@ const Register = () => {
             <LockOutlinedIcon className='iconp'/>
           </div>
           {
-            loading ? (
-              <button  className="register-btn"><CircularProgress sx={{color:'#6c28f4'}}/></button>
+            true ? (
+              <button  className="register-btn"><CircularProgress sx={{color:'#6c28f4',backgroundColor:'transparent'}}/></button>
             ):(
               <button type='submit' className="register-btn">Register</button>
             )

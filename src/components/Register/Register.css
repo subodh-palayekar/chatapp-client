@@ -39,6 +39,9 @@
     color: white;
     
 }
+circle{
+    background-color: transparent;
+}
 .register-form  input::placeholder{
     color: white;
 }
