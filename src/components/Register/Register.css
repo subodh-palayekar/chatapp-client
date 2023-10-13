@@ -4,7 +4,6 @@
     align-items: center;
     width: 100vw;
     background-color: #6c28f4;
-
 }
 
 .register-left{
@@ -82,6 +81,9 @@
 .link-text{
     text-decoration: underline;
     color: white;
+}
+.css-1idz92c-MuiCircularProgress-svg {
+    background-color: transparent !important;
 }
 
 .register-right{

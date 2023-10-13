@@ -23,9 +23,9 @@ const Register = () => {
   const config = { headers:{"Content-type":"application/json"},}
 
   const handleRegister= async(e)=>{
+    setLoading(true);
     try {
       e.preventDefault()
-      setLoading(true);
         const response = await axios.post('https://chatappserver-epqb.onrender.com/user/register',formData,config);
         console.log(response);
         navigate("/")
@@ -39,7 +39,7 @@ const Register = () => {
           progress:undefined,
           theme:"colored"
         })
-        setLoading(false);
+        
       } catch (error) {
         toast.error(error.response.data?.message,{
           position:"top-center",
@@ -51,6 +51,7 @@ const Register = () => {
           theme:"colored"
         })
       }
+      setLoading(false);
   } 
 
 
