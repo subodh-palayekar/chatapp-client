@@ -24,28 +24,12 @@ const GroupPreview = ({userData,userArr}) => {
         console.log(userArr);
     }
   return (
-    // <div className='userdata-container'>
-    //     <div className="userdata-icon">
-    //     </div> 
-    //     <div className="userdata-details">
-    //         <span className="userdata-name">{capitalizeFirstLetter(name)}</span>
-    //         <span className="userdata-username">@{username}</span>
-    //     </div>
-    //     <div className="userdata-add-icon" onClick={handleClick}>
-    //         {
-    //             add? <OfflinePinIcon style={{fontSize:"35px",color:"#19e029",backgroundColor:"transparent"}}/>
-    //             : <AddCircleOutlinedIcon style={{fontSize:"35px",color:"red",backgroundColor:"transparent"}}/> 
-    //         }
-    //     </div>
-    // </div>
-
-    
     <div className='userdata-container'>
     <div className="userdata-icon">
         {isLoading ? (
             <Skeleton variant="circular" width={50} height={50} />
         ) : (
-           <div></div>
+           <>{capitalizeFirstLetter(name)[0]}</>
         )
         }
     </div>

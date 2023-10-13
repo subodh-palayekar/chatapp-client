@@ -8,8 +8,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import errorHandling from '../../Utils/errorhandling';
 import { myContext } from '../Maincontainer/Maincontainer';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Back from '../BackButton/Back';
+import { toast } from 'react-toastify';
+import { Box, CircularProgress } from '@mui/material';
 
 
 const Creategroup = () => {
@@ -23,6 +24,7 @@ const Creategroup = () => {
   const container = useRef(null);
   const{refresh,setRefresh,sideBarClick} = useContext(myContext);
   const userData =  JSON.parse(localStorage.getItem("userData"));
+  const [loading,setLoading]=useState(true);
 
   if(!userData ){
       navigate("/")
@@ -32,9 +34,10 @@ const Creategroup = () => {
 
   const fetchUser=async()=>{
     try{
-      const resp = await axios.get('http://localhost:5000/user/fetchusers',config);
+      const resp = await axios.get('https://chatappserver-epqb.onrender.com/user/fetchusers',config);
       setUsers(resp.data)
       console.log(resp.data);
+      setLoading(false);
     }catch(e){
       errorHandling(e,navigate);
     }
@@ -66,11 +69,29 @@ const Creategroup = () => {
 
   const handleCreateGroup=async ()=>{
     try{
-      const resp = await axios.post("http://localhost:5000/chat/creategroup",{name:groupName,users:userArr},config);
+      const resp = await axios.post("https://chatappserver-epqb.onrender.com/chat/creategroup",{name:groupName,users:userArr},config);
       navigate("/app/allgroups")
       setRefresh(!refresh)
+      toast.success('Group Successfully Created',{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
     }catch(e){
       console.log(e);
+      toast.error('Error While Creating Group',{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
     }
 
 
@@ -101,9 +122,21 @@ const Creategroup = () => {
                     <SearchOutlinedIcon className='search-icon'/>
                 </div>
                 <div className="groupsearch-user">
-                {handleSearch().map((user,index)=>{
+                 {
+                  loading ? (
+                    <Box sx={{
+                      display:"flex",
+                      justifyContent:"center",
+                      alignItems:"center", 
+                      width:"100%",
+                      backgroundColor:"transparent",
+                      color:"#6c28f4"
+                      }}>
+                      <CircularProgress sx={{color:'#6c28f4'}}/>
+                  </Box>
+                  ):(handleSearch().map((user,index)=>{
                   return (<GroupPreview userArr={userArr} userData={user}  key={index}/>)
-                })}
+                }))}
                 </div>
                 <div className="create-group-btn" onClick={handleCreateGroup}>
                   Create Group

@@ -1,13 +1,7 @@
 import React from 'react'
 import  "./Maincontainer.css"
-import Login from '../LoginComp/Login'
-import Register from '../Register/Register'
 import { Outlet } from 'react-router-dom'
 import SideBar from '../Sidebar/SideBar'
-import Chatarea from '../ChatArea/Chatarea'
-import Welcome from '../Welcome/Welcome'
-import Adduser from '../AddUser/Adduser'
-import Creategroup from '../CreateGroup/Creategroup'
 import { createContext, useState } from "react";
 export const myContext = createContext();
 

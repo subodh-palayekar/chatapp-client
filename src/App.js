@@ -9,6 +9,8 @@ import Adduser from './components/AddUser/Adduser';
 import Welcome from './components/Welcome/Welcome';
 import Chatarea from './components/ChatArea/Chatarea';
 import Allgroups from './components/CreateGroup/Allgroups';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
@@ -26,7 +28,7 @@ function App() {
           <Route path='adduser' element={<Adduser/>}></Route>
         </Route>
       </Routes>
-      
+      <ToastContainer/>
     </div>
   );
 }

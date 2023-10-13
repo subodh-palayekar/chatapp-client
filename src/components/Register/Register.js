@@ -6,39 +6,59 @@ import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import welcomeImg from "../../Assets/welcomeImg.png";
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { CircularProgress } from '@mui/material';
+import Logo from "../../Assets/logo.png"
 
 const Register = () => {
 
   const navigate = useNavigate();
   const [formData,SetFormData] = useState({});
-  const [loading,setLoading] = useState(false)
+  const [loading,setLoading] = useState(false);
 
   const handleChange=(e)=>{
-    SetFormData({...formData,[e.target.name]:e.target.value})
+    SetFormData({...formData,[e.target.name]:e.target.value.toLowerCase()})
   }
 
   const config = { headers:{"Content-type":"application/json"},}
 
   const handleRegister= async(e)=>{
+    try {
+      e.preventDefault()
       setLoading(true);
-      try {
-        e.preventDefault()
-        const response = await axios.post('http://localhost:5000/user/register',formData,config);
+        const response = await axios.post('https://chatappserver-epqb.onrender.com/user/register',formData,config);
         console.log(response);
         navigate("/")
         setLoading(false);
+        toast.success('Register Successfully',{
+          position:"top-center",
+          autoClose:"1300",
+          hideProgressBar:false,
+          closeOnClick:true,
+          draggable:true,
+          progress:undefined,
+          theme:"colored"
+        })
+        setLoading(false);
       } catch (error) {
-        console.log(error);
-        alert(error.response.data?.message); 
-        setLoading(false)
+        toast.error(error.response.data?.message,{
+          position:"top-center",
+          autoClose:"1300",
+          hideProgressBar:false,
+          closeOnClick:true,
+          draggable:true,
+          progress:undefined,
+          theme:"colored"
+        })
       }
-  }
+  } 
 
 
 
   return (
     <div className='register-container'>
       <div className="register-left">
+      <img className='logo' src={Logo}></img>
         <span className="register-heading">Create Account</span>
         <form onSubmit={handleRegister} className="register-form">
           <div className="input-container">
@@ -57,7 +77,14 @@ const Register = () => {
           <input type="password" name='password' placeholder='Password' required className="register-password" onChange={handleChange}/>      
             <LockOutlinedIcon className='iconp'/>
           </div>
-          <button type='submit' className="register-btn">Register</button>
+          {
+            loading ? (
+              <button  className="register-btn"><CircularProgress sx={{color:'#6c28f4'}}/></button>
+            ):(
+              <button type='submit' className="register-btn">Register</button>
+            )
+          }
+          
         </form>
         <span className="register-bottom-text">Already Have Account? <Link className='link-text' to='/'>Login</Link> </span>
       </div>

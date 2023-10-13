@@ -1,7 +1,5 @@
 import { Skeleton } from '@mui/material'
 import React from 'react'
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import OfflinePinIcon from '@mui/icons-material/OfflinePin';
 
 const UserDataSkeleton = () => {
   return (

@@ -63,6 +63,9 @@
     color: #6c28f4;
     padding-left: 0;
 }
+.register-btn:active{
+    transform: scale(0.99);
+}
 .register-heading{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 40px;

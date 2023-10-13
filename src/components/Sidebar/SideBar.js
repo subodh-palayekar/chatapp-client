@@ -7,16 +7,19 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import PreviewMessage from '../Message/PreviewMessage';
-import { Link, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import errorHandling from '../../Utils/errorhandling';
 import { myContext } from '../Maincontainer/Maincontainer';
 import PrevMessSkeleton from '../Skeleton/PrevMessSkeleton';
+import { Box, CircularProgress } from '@mui/material';
 
 const SideBar = () => {
     const navigate = useNavigate();
     const [conversations,setConversations]=useState([]);
     const [loading,setLoading] = useState(true);
+    const [initialLoading,setInitialLoading] = useState(true);
+    const [search,setSearch]=useState("")
     const sidebarContainer = useRef(null);
     const{ refresh,sideBarClick,setSideBarClick} = useContext(myContext)
     const userData = JSON.parse(localStorage.getItem('userData'));
@@ -30,9 +33,11 @@ const SideBar = () => {
     const fetchConversation = async()=>{
         try{
             setLoading(true);
-            const resp = await axios.get("http://localhost:5000/chat/",config);
+            const resp = await axios.get("https://chatappserver-epqb.onrender.com/chat/",config);
             setConversations(resp.data)
+            setInitialLoading(false);
             setLoading(false);
+            console.log(conversations);
         }catch(e){
             errorHandling(e,navigate);
         }
@@ -50,7 +55,15 @@ const SideBar = () => {
                 console.log(sideBarClick);
             }
         }
-    }    
+    }  
+    
+    const handleSearch = ()=>{
+        return conversations.filter((conversation)=>{
+          return (( conversation.isGroupChat &&  conversation.chatName.toLowerCase().includes(search.toLowerCase())) ||
+          (!conversation.isGroupChat && conversation.users[1]?.name.toLowerCase().includes(search.toLowerCase()))
+          )
+        })
+    }
 
     useEffect(()=>{
         if(!sideBarClick){
@@ -79,7 +92,6 @@ const SideBar = () => {
                 <div className="sidebar-icon-holder profile" onClick={()=>{handleClick("welcome")}}>
                     <AccountCircleOutlinedIcon style={{ fontSize: '25px' }} className='sidebar-icon'/>
                 </div>
-                {/* <span className="sidebar-profile-name">{userData.name}</span> */}
             </div>
             <div className="sidebar-top-right">
                 <div className="sidebar-icon-holder" onClick={()=>{handleClick("adduser")}}>
@@ -98,11 +110,22 @@ const SideBar = () => {
         </div>
         <div className="sidebar-bottom">
             <div className="search-container">
-                <input type="text" placeholder='Search' className="search" />     
+                <input type="text" placeholder='Search' value={search} className="search"  onChange={(e)=>(setSearch(e.target.value))}/>     
                     <SearchOutlinedIcon className='search-icon'/>
             </div>
             <div className="prev-message-container">
-                { conversations.map((conversation,index)=>{
+                {
+                    initialLoading ? (
+                        <Box sx={{
+                            display:"flex",
+                            justifyContent:"center",
+                            alignItems:"center", 
+                            width:"100%",
+                            backgroundColor:"transparent",
+                            }}>
+                            <CircularProgress sx={{color:'#6c28f4'}}/>
+                        </Box>
+                    ):( handleSearch().map((conversation,index)=>{
                     var chatName = "";
                     if(conversation.isGroupChat){
                         chatName=conversation.chatName;
@@ -115,13 +138,13 @@ const SideBar = () => {
                     } 
                     return (<>
                     {loading ? (
-                            <PrevMessSkeleton/> 
+                            <PrevMessSkeleton key={index}/> 
                             ): (
-                            <PreviewMessage sidebarContainer={sidebarContainer}  data={conversation} chatName={chatName}/>
+                            <PreviewMessage key={index} sidebarContainer={sidebarContainer}  data={conversation} chatName={chatName}/>
                     )}
                         </>
                     )
-                })}
+                }))}
             </div>
         </div>
     </div>

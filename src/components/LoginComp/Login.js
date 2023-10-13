@@ -5,6 +5,10 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Link, useNavigate } from 'react-router-dom';
 import welcomeImg from "../../Assets/welcomeImg.png";
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { CircularProgress } from '@mui/material';
+import Credits from '../Credit/Credits';
+import Logo from "../../Assets/logo.png"
 
 const Login = () => {
   
@@ -13,7 +17,7 @@ const Login = () => {
   const [loading,setLoading] = useState(false);
 
   const handleChange=(e)=>{
-    setFormData({...formData,[e.target.name]:e.target.value})
+    setFormData({...formData,[e.target.name]:e.target.value.toLowerCase()})
   }
   const config = {headers:{"Content-type":"application/json"},}
 
@@ -21,15 +25,31 @@ const Login = () => {
     setLoading(true);
     try {
       e.preventDefault();
-      const response = await axios.post("http://localhost:5000/user/login",formData,config);
+      const response = await axios.post("https://chatappserver-epqb.onrender.com/user/login",formData,config);
       console.log(response);
       navigate("/app/welcome")
-      alert('login successfully')
       localStorage.setItem("userData",JSON.stringify(response.data))
       setLoading(false)
+      toast.success('Login Successfully',{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
+      
     } catch (error) {
-      console.log(error);
-      alert(error.response.data.message)
+      toast.error(error.response.data.message,{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
       setLoading(false)
     }
 
@@ -37,7 +57,9 @@ const Login = () => {
   return (
     <div className='login-container'>
       <div className="login-left">
+        <img className='logo' src={Logo}></img>
         <span className="login-heading">Welcome Back</span>
+        
         <form onSubmit={handleLogin} className="login-form">
           <div className="input-container">
             <input type="text" name='username' placeholder='Username'  required className="login-username" onChange={handleChange} />     
@@ -47,9 +69,16 @@ const Login = () => {
           <input type="password"  name='password' placeholder='Password' required className="login-password" onChange={handleChange} />      
             <LockOutlinedIcon className='iconp'/>
           </div>
-          <button type='submit' className="login-btn">Login</button>
+          {
+            loading ? (
+              <button  className="login-btn"><CircularProgress sx={{color:'#6c28f4'}}/></button>
+            ):(
+              <button type='submit' className="login-btn">Login</button>
+            )
+          }
         </form>
         <span className="login-bottom-text">Don't Have Account? <Link className="link-text" to="/register"> Create Account</Link> </span>
+        <Credits/>
       </div>
       <div className="login-right">
         <img src={welcomeImg} alt="welcome" />

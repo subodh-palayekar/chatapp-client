@@ -108,7 +108,9 @@
     font-weight: bold;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     cursor: pointer;
-
+}
+.create-group-btn:active{
+    transform: scale(0.98);
 }
 .group-result{
     background-color: transparent;
@@ -121,7 +123,9 @@
     overflow-y: scroll;
     flex: 1;
 }
-
+.css-1idz92c-MuiCircularProgress-svg {
+    background-color: transparent;
+}
 /* Width and height for the scrollbar track (the empty space) */
 .group-result::-webkit-scrollbar {
     width: 5px; /* Adjust the width as needed */

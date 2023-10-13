@@ -1,4 +1,4 @@
-import React, { useEffect, useState ,useContext,useRef} from 'react'
+import React, { useEffect, useState ,useContext,useRef,useMemo} from 'react'
 import "./Chatarea.css"
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
@@ -12,12 +12,12 @@ import errorHandling from '../../Utils/errorhandling';
 import { myContext } from '../Maincontainer/Maincontainer';
 import { io } from "socket.io-client";
 import capitalizeFirstLetter from '../../Utils/capitalize';
-import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import Back from '../BackButton/Back';
 import SelfMessageSkeleton from '../Skeleton/SelfMessageSkeleton';
 import ChatContainerSkeleton from '../Skeleton/ChatContainerSkeleton';
+import { toast } from 'react-toastify';
 
-const ENDPOINT = "http://localhost:5000"
+const ENDPOINT = "https://chatappserver-epqb.onrender.com/"
 var socket;
 // const socket = io(ENDPOINT)
 const Chatarea = () => {
@@ -28,11 +28,11 @@ const Chatarea = () => {
   const[socketConnectionStatus,setSocketConnectionStatus]=useState(false);
   const [groupAdmin,setGroupAdmin]=useState(false);
   const[loading,setLoading]=useState(true);
-  const{refresh,setRefresh,sideBarClick,setSideBarClick} = useContext(myContext);
+  const{refresh,setRefresh,sideBarClick,setSideBarClick,setMessageLoading,messageLoading} = useContext(myContext);
   const container = useRef(null);
-
   const params = useParams();
   const[chat_id,chat_user,groupAdminId,otherUser,isGroup] = params.id.split("&");
+
   const userData = JSON.parse(localStorage.getItem('userData'));
   if(!userData || !userData?.token){
     navigate('/')
@@ -44,7 +44,7 @@ const Chatarea = () => {
 
   const sendMessage = async()=>{
       try{
-        const resp = await axios.post("http://localhost:5000/message/",{content:messageContent,chatId:chat_id},config); 
+        const resp = await axios.post("https://chatappserver-epqb.onrender.com/message/",{content:messageContent,chatId:chat_id},config); 
         setMessageContent("");
         socket.emit("newMessage",resp)
         setRefresh(!refresh);
@@ -56,21 +56,25 @@ const Chatarea = () => {
 
   
   const getMessage = async()=>{
+    
     try{
       
-      const resp = await axios.get("http://localhost:5000/message/"+chat_id,config);
+      const resp = await axios.get("https://chatappserver-epqb.onrender.com/message/"+chat_id,config);
       setAllMessage(resp.data);
       socket.emit("join chat",chat_id);
-        setLoading(false);
+      setLoading(false);
+      setMessageLoading(false);
     }catch(e){
       errorHandling(e,navigate);
     }
   }
 
+
+
   const handleGroupExit=async()=>{
     try{
       setLoading(true);
-      const resp = await axios.post("http://localhost:5000/chat/groupexit",{chatId:chat_id,userId:userData._id,otherUser:otherUser},config)
+      const resp = await axios.post("https://chatappserver-epqb.onrender.com/chat/groupexit",{chatId:chat_id,userId:userData._id,otherUser:otherUser},config)
       console.log("clicked on button");
       if(window.document.defaultView.innerWidth<=615){
         navigate("/app");
@@ -80,8 +84,26 @@ const Chatarea = () => {
       }
       setRefresh(!refresh);
       setLoading(false);
+      toast.success('Chat Deleted Successfully',{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
       
     }catch(e){
+      toast.error('Chat Not Deleted',{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
       errorHandling(e,navigate);
     }
   }
@@ -90,7 +112,7 @@ const Chatarea = () => {
   const handleGroupDelete=async()=>{
     try{
       setLoading(true);
-      const resp = await axios.post("http://localhost:5000/chat/deleteGroup",{chatId:chat_id,otherUser:otherUser},config)
+      const resp = await axios.post("https://chatappserver-epqb.onrender.com/chat/deleteGroup",{chatId:chat_id,otherUser:otherUser},config)
       console.log("delete");
       if(window.document.defaultView.innerWidth<=615){
         navigate("/app");
@@ -100,9 +122,28 @@ const Chatarea = () => {
       }
       setRefresh(!refresh);
       setLoading(false);
+
+      toast.success('Group Deleted Successfully',{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
       
     }catch(e){
       console.log(e);
+      toast.error('Group Not Deleted Successfully',{
+        position:"top-center",
+        autoClose:"1300",
+        hideProgressBar:false,
+        closeOnClick:true,
+        draggable:true,
+        progress:undefined,
+        theme:"colored"
+      })
       navigate("/app/allgroups")
     }
   }
@@ -147,12 +188,7 @@ const Chatarea = () => {
     
   },[])
   
-
-
-
-
   useEffect(()=>{
-    
     if(!userData || !userData?.token){
       navigate('/')
       return;
@@ -162,6 +198,7 @@ const Chatarea = () => {
   },[chat_id,userData?.token,refresh,allMessage])
 
   return (
+    <>
     <div ref={container} className='chatarea-container mobile-container'>
       <div className="chatarea-top">
             <div className="sidebar-top-left">
@@ -180,7 +217,7 @@ const Chatarea = () => {
             </div>
       </div>
       <div className="chatarea-bottom">
-      { loading ? (
+      { (messageLoading || loading) ? (
         <ChatContainerSkeleton/>
       ):(
         <div className="chats">
@@ -199,7 +236,7 @@ const Chatarea = () => {
 
             })
           }
-        </div>) 
+        </div>)  
         }
         <div className="message-type-container">
           <input type="text" placeholder='Start Typing...' value={messageContent} className="message-input" onChange={(e)=>{setMessageContent(e.target.value)}}/>
@@ -209,6 +246,9 @@ const Chatarea = () => {
         </div>
       </div>
     </div>
+    
+    </>
+
   )
 }
 

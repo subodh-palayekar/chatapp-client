@@ -3,11 +3,11 @@ import "./Message.css"
 import { useNavigate } from 'react-router-dom'
 import capitalizeFirstLetter from '../../Utils/capitalize'
 import { myContext } from '../Maincontainer/Maincontainer'
-import { Box } from '@mui/material'
+
 
 
 const PreviewMessage = ({data ,chatName,sidebarContainer}) => {
-const {setSideBarClick} = useContext(myContext)
+const {setSideBarClick,setMessageLoading} = useContext(myContext)
 const {_id,latestMessage,isGroupChat} = data
 
 const name = capitalizeFirstLetter(chatName ? chatName : `Deleted Chat`)
@@ -26,6 +26,7 @@ const otherUser = data?.users[1]?._id
     }else{
       navigate(`chat/${_id}&${chatName}&false&${otherUser}&false`)
     }
+    setMessageLoading(true);
   }
   return (
      <div className='prev-message' onClick={()=>{handleclick()}}>

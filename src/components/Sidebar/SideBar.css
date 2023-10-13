@@ -40,8 +40,10 @@
 .sidebar-icon{
    color: #6c28f4;
    background-color: white;
-   font-size: 48px;
-   
+   font-size: 48px; 
+}
+.sidebar-icon-holder:active{
+    transform: scale(0.98);
 }
 
 .sidebar-profile-name{

@@ -10,10 +10,10 @@ const PrevMessSkeleton = () => {
         </div>
         <div className="prev-details">
             <div className="prev-name">
-                <Skeleton variant="text" width={150} />
+                <Skeleton variant="text" max-width={150} />
             </div>
             <div className="prev-latest-message">
-                <Skeleton variant="text" width={250} />
+                <Skeleton variant="text" max-width={250} />
             </div>
         </div>
     </div>                        

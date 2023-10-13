@@ -1,5 +1,4 @@
 import React from 'react';
-import Skeleton from '@mui/material/Skeleton';
 import SelfMessageSkeleton from './SelfMessageSkeleton';
 import OtherMessageSkeleton from './OtherMessageSkeleton';
 

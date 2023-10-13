@@ -41,6 +41,23 @@ button:hover{
 .backBtn{
     display: none !important;
 }
+.css-1idz92c-MuiCircularProgress-svg {
+    background-color: transparent !important;
+}
+.Toastify{
+    background-color: transparent !important;
+}
+.Toastify__toast-container--top-center {
+    background-color: transparent;
+}
+.Toastify--animate-icon svg,
+.Toastify__close-button svg,
+.Toastify__toast-body > div:last-child ,
+.Toastify__toast-body,
+.Toastify__toast-body>svg,
+.Toastify__toast-icon {
+    background-color: transparent !important;
+}
 
 @media (max-width:615px){
     .chatarea-container{

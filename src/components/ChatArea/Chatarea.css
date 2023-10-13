@@ -65,7 +65,7 @@
 .chats{
     flex:1;
     border-radius: 25px;
-    margin: 7px;
+    margin: 2px;
     background-color: transparent;
     display: flex;
     flex-direction: column-reverse;
@@ -106,9 +106,12 @@
     background-color: white;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     cursor: pointer;
-    
+}
+
+.send-icon-holder:active{
+    transform: scale(0.98);
 }
 
 

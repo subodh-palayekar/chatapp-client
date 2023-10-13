@@ -13,6 +13,12 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
 }
+.userdata-container:hover{
+    background-color: #f1f1f1;
+}
+.userdata-container:active{
+    transform: scale(0.98);
+}
 
 .userdata-icon{
     width: 50px;
@@ -24,9 +30,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 40px;
+    font-size: 35px;
     font-weight: 700;
     color: #6c28f4;
+    font-family: monospace;
 }
 .userdata-details{
     display: flex;
