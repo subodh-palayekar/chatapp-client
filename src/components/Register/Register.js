@@ -79,7 +79,7 @@ const Register = () => {
             <LockOutlinedIcon className='iconp'/>
           </div>
           {
-            true ? (
+            loading ? (
               <button  className="register-btn"><CircularProgress sx={{color:'#6c28f4',backgroundColor:'transparent'}}/></button>
             ):(
               <button type='submit' className="register-btn">Register</button>
