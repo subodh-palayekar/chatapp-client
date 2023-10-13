@@ -5,12 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { Button} from '@mui/material';
 
 const Back = () => {
-    const {sideBarClick,setSideBarClick} = useContext(myContext);
+    const {setSideBarClick} = useContext(myContext);
     const navigate = useNavigate()
 
     const handleClick=()=>{
         setSideBarClick(false);
-        console.log(sideBarClick);
         navigate("/app")
     }
 

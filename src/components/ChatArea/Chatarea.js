@@ -147,6 +147,10 @@ const Chatarea = () => {
       navigate("/app/allgroups")
     }
   }
+  
+  window.addEventListener('popstate',(e)=>{
+    setSideBarClick(false);
+  })
 
   
 
@@ -157,13 +161,14 @@ const Chatarea = () => {
   }
 
   useEffect(()=>{
-    if(sideBarClick){
+    if(sideBarClick ){
         container.current?.classList.add("show-me");
         container.current?.classList.remove("mobile-container");
     }else if(!sideBarClick){
         container.current?.classList.remove("show-me");
         container.current?.classList.add("mobile-container");
     }
+
   },[sideBarClick])
   
 
