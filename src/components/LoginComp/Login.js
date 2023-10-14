@@ -7,7 +7,6 @@ import welcomeImg from "../../Assets/welcomeImg.png";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { CircularProgress } from '@mui/material';
-import Credits from '../Credit/Credits';
 import Logo from "../../Assets/logo.png"
 
 const Login = () => {
@@ -78,7 +77,7 @@ const Login = () => {
           }
         </form>
         <span className="login-bottom-text">Don't Have Account? <Link className="link-text" to="/register"> Create Account</Link> </span>
-        <Credits/>
+        <span className='credits'>Developed By <a target='_blank' href='https://github.com/subodh-palayekar'>Subodh Palayekar</a>❤️</span>
       </div>
       <div className="login-right">
         <img src={welcomeImg} alt="welcome" />

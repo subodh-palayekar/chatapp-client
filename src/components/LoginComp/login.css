@@ -86,6 +86,23 @@
     text-decoration: underline;
 }
 
+.credits{
+    color: white;
+    font-weight:300 ;
+    font-size: 14px;
+    margin-top: 70px;
+}
+.credits a{
+    color: white;
+}
+
+
+@media (max-width:285px){
+    .credits{
+     bottom: -72px;
+    }
+}
+
 .login-right{
     display: flex;
     justify-content: center;

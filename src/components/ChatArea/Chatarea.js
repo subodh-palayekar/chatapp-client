@@ -155,6 +155,7 @@ const Chatarea = () => {
   
 
   const findGroupAdmin=()=>{
+    setGroupAdmin(false)
       if(groupAdminId===userData._id){
         setGroupAdmin(true);
       }
@@ -200,7 +201,7 @@ const Chatarea = () => {
     }
     getMessage()
     findGroupAdmin()
-  },[chat_id,userData?.token,refresh,allMessage])
+  },[chat_id,userData?.token,refresh,allMessage,isGroup])
 
   return (
     <>
